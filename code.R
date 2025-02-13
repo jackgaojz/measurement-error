@@ -3,7 +3,7 @@ rm(list=ls())
 gc()
 library(mvtnorm)
 library(glmnet)
-# library(BDcocolasso)
+library(BDcocolasso)
 # https://github.com/celiaescribe/BDcocolasso
 library(pqr)
 # https://github.com/xliusufe/pqr/
@@ -1967,7 +1967,6 @@ cov_autoregressive <- function(p) {
 res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   
   # first step subsampling
-  set.seed(itr)
   WK.simp <- c()
   ZK.simp <- c()
   yK.simp <- c()
@@ -2037,7 +2036,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   Htilde <- t(Hhat)
   
   # method 1: dunif
-  set.seed(itr)
   PI.opt.dunif <- matrix(NA, max(nK), K)
   r2.dunif <- rep(NA, K)
   for (k in 1:K) {
@@ -2095,7 +2093,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   }
   r.opt.dmV <- round(r2 * r.opt.dmV / sum(r.opt.dmV))
   
-  set.seed(itr)
   WK.dmV <- c()
   ZK.dmV <- c()
   yK.dmV <- c()
@@ -2146,7 +2143,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   }
   r.opt.dmVc <- round(r2 * r.opt.dmVc / sum(r.opt.dmVc))
   
-  set.seed(itr)
   WK.dmVc <- c()
   ZK.dmVc <- c()
   yK.dmVc <- c()
@@ -2188,7 +2184,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   ZK.ora <- ZK[, , 1:(s - d + 1)]
   yK.ora <- yK
   
-  set.seed(itr)
   XK.ora.simp <- c()
   ZK.ora.simp <- c()
   yK.ora.simp <- c()
@@ -2217,7 +2212,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   }
   r.opt.ora.dmV <- round(r2 * r.opt.ora.dmV / sum(r.opt.ora.dmV))
   
-  set.seed(itr)
   XK.ora.dmV <- c()
   ZK.ora.dmV <- c()
   yK.ora.dmV <- c()
@@ -2255,7 +2249,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   se.oradmV <- sqrt(diag(solve(Jhat.ora.dmV) %*% Vhat.ora.dmV %*% solve(Jhat.ora.dmV)))[1:d]
   
   # method 5: undmV 
-  set.seed(itr)
   WK.simp <- c()
   ZK.simp <- c()
   yK.simp <- c()
@@ -2303,7 +2296,6 @@ res <- function(itr, WK, XK, ZK, yK, K, n, nK, p, d, s, r1, r2, sigmav) {
   }
   r.opt.undmV <- round(r2 * r.opt.undmV / sum(r.opt.undmV))
   
-  set.seed(itr)
   WK.undmV <- c()
   ZK.undmV <- c()
   yK.undmV <- c()
@@ -2393,7 +2385,6 @@ WK <- array(NA, c(max(nK), K, d))
 ZK <- array(NA, c(max(nK), K, p - d + 1))
 eK <- matrix(NA, max(nK), K)
 yK <- matrix(NA, max(nK), K)
-set.seed(1)
 for (k in 1:K) {
   UK[1:nK[k], k, ] <- cbind(1, rmvnorm(nK[k], meanx, sigmax))
   XK[1:nK[k], k, ] <- UK[1:nK[k], k, 2:(d + 1)]
